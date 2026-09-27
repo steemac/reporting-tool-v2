@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ledger Line Reports — FAQ</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Public+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#ffffff; --surface-alt:#f4f6f9; --border:#e3e8f0;
+    --text:#1c2530; --text-muted:#5b6a85;
+    --brand-blue:#2f6feb; --brand-blue-dark:#1f4fc4;
+    --brand-gradient:linear-gradient(135deg,#2f5fe0 0%,#3fa0e6 100%);
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.6;}
+
+  .site-nav{background:#ffffff;border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:26px;padding:14px 20px;flex-wrap:wrap;}
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none;}
+  .logo-text{font-weight:800;font-size:21px;letter-spacing:.2px;color:var(--brand-blue);}
+  .logo-badge{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--brand-blue);background:#eaf1fe;border-radius:6px;padding:3px 8px;text-transform:uppercase;}
+  .nav-links{display:flex;align-items:center;gap:22px;margin-right:auto;flex-wrap:wrap;}
+  .nav-links a{color:#3a4658;text-decoration:none;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;}
+  .nav-links a:hover{color:var(--brand-blue);}
+  .nav-links a.active{color:var(--brand-blue);}
+  .nav-actions{display:flex;align-items:center;gap:10px;flex:none;}
+  .btn-nav{display:inline-flex;align-items:center;gap:6px;background:var(--brand-blue);color:#fff;border-radius:8px;padding:8px 16px;font-size:13.5px;font-weight:700;text-decoration:none;border:1px solid var(--brand-blue);white-space:nowrap;}
+  .btn-nav:hover{background:var(--brand-blue-dark);border-color:var(--brand-blue-dark);}
+  .btn-nav.outline{background:#fff;color:var(--brand-blue);}
+  .btn-nav.outline:hover{background:#eaf1fe;}
+
+  .page-head{background:var(--brand-gradient);color:#fff;padding:38px 20px 44px;text-align:center;}
+  .page-head .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:6px 16px;font-size:12.5px;font-weight:600;margin-bottom:14px;}
+  .page-head h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(24px,3.6vw,34px);margin:0 0 10px;}
+  .page-head p{max-width:60ch;margin:0 auto;color:rgba(255,255,255,.92);font-size:14.5px;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:36px 20px 70px;}
+
+  .faq-item{border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;background:var(--surface);}
+  .faq-item summary{
+    list-style:none;cursor:pointer;padding:16px 50px 16px 20px;font-weight:700;font-size:14.5px;color:#122142;
+    position:relative;display:block;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::marker{content:"";}
+  .faq-item summary .chev{
+    position:absolute;right:18px;top:50%;transform:translateY(-50%) rotate(0deg);
+    width:11px;height:11px;border-right:2px solid var(--brand-blue);border-bottom:2px solid var(--brand-blue);
+    transform-origin:center;transition:transform .18s ease;
+  }
+  .faq-item summary .chev{transform:translateY(-65%) rotate(45deg);}
+  .faq-item[open] summary .chev{transform:translateY(-35%) rotate(-135deg);}
+  .faq-item summary:hover{background:var(--surface-alt);}
+  .faq-item .a{padding:0 20px 18px;color:var(--text);font-size:14px;}
+  .faq-item .a p{margin:0 0 10px;}
+  .faq-item .a p:last-child{margin-bottom:0;}
+  .faq-item[open]{border-color:color-mix(in srgb, var(--brand-blue) 35%, var(--border));}
+
+  .faq-note{background:#eef4ff;border:1px solid #cfe0fb;border-radius:10px;padding:12px 16px;font-size:13px;color:#1f3a70;margin-bottom:28px;}
+
+  footer.page-footer{max-width:760px;margin:0 auto;padding:0 20px 60px;color:var(--text-muted);font-size:12.5px;}
+  footer.page-footer a{color:var(--brand-blue);text-decoration:none;font-weight:600;}
+  .faq-group{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--brand-blue);margin:28px 0 10px;}
+  .faq-group:first-child{margin-top:0;}
+  .faq-item .a ul{margin:0 0 10px;padding-left:20px;}
+  .faq-item .a li{margin-bottom:4px;}
+</style>
+
+</head>
+<body>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-text">QUICKFILE</span>
+      <span class="logo-badge">Reporting</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Reporting Tool</a>
+      <a href="https://support.quickfile.co.uk/" target="_blank" rel="noopener">Support</a>
+      <a href="https://community.quickfile.co.uk" target="_blank" rel="noopener">Community</a>
+      <a href="https://www.youtube.com/@QuickFileHelpGuides" target="_blank" rel="noopener">
+        <svg width="20" height="14" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1a3.5 3.5 0 0 0-2.46-2.48C22.76 0 14 0 14 0S5.24 0 3.06.62A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9 3.5 3.5 0 0 0 2.46 2.48C5.24 20 14 20 14 20s8.76 0 10.94-.62a3.5 3.5 0 0 0 2.46-2.48A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.3V5.7L18.5 10l-7.3 4.3z" fill="#fff"/></svg>
+        YouTube
+      </a>
+      <a href="guide.html">Guide</a>
+      <a class="active" href="faq.html" aria-current="page">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn-nav outline" href="https://www.quickfile.co.uk/register" target="_blank" rel="noopener">Sign Up</a>
+      <a class="btn-nav" href="https://www.quickfile.co.uk/login/search" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        Log In
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="eyebrow">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.7-2.2 2-2.5 3.5M12 17h.01"/></svg>
+    Ledger Line Reports
+  </div>
+  <h1>Frequently Asked Questions</h1>
+  <p>Click a question to see the answer. Still stuck? See the full <a href="guide.html" style="color:#fff;text-decoration:underline;">user guide</a>.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="faq-group">Getting started</div>
+  <details class="faq-item" open>
+    <summary>How do I get a backup from QuickFile?<span class="chev"></span></summary>
+    <div class="a"><p>In QuickFile, go to <strong>Account Settings &rarr; All Settings &rarr; Monthly Backups</strong>, enter an email address and click <strong>Run Now</strong>. You'll receive an email with a link to download your backup — that's the zip file to choose in this tool. You don't need to unzip it.</p><p>If you use project tags, tick <strong>Include Projects</strong> before you run the backup (see below).</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Do I need a QuickFile account to use this?<span class="chev"></span></summary>
+    <div class="a"><p>You need a QuickFile backup zip, which means access to a QuickFile account to create one. The tool itself doesn't ask you to sign in or create an account.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why does it take a few seconds to load my backup?<span class="chev"></span></summary>
+    <div class="a"><p>After you choose your zip, a progress bar shows for about five seconds while the tool opens the backup, reads your invoices and purchases, matches payments and bank lines, and builds the reports. Very large backups can take a little longer — the bar waits until everything is ready before showing your data.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>What browsers or devices does this work on?<span class="chev"></span></summary>
+    <div class="a"><p>Any modern browser — Chrome, Edge, Firefox or Safari. It also works on phones and tablets; on a small screen the report library is replaced by the report cards, and wide tables scroll sideways. The reports are easiest to read on a larger screen.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Is this an official QuickFile product?<span class="chev"></span></summary>
+    <div class="a"><p>No — this is an independent companion tool built to complement QuickFile, not an official QuickFile feature. Your account and data stay in QuickFile; this tool only reads a backup you choose to export.</p></div>
+  </details>
+
+  <div class="faq-group">Your data and privacy</div>
+  <details class="faq-item">
+    <summary>Is my data uploaded anywhere?<span class="chev"></span></summary>
+    <div class="a"><p>No. The backup zip is read entirely inside your browser tab. It's never sent to QuickFile, to us or to any other server — closing the tab clears everything.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Will my report choice and filters be remembered next time?<span class="chev"></span></summary>
+    <div class="a"><p>No — nothing is saved between visits, so you'll need to choose your backup again each time. You can bookmark a particular report (its web address ends in something like <strong>#r=trial_balance</strong>), and the tool will open on that report, but you'll still need to load your backup.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>What if I close the browser tab or refresh the page?<span class="chev"></span></summary>
+    <div class="a"><p>Your loaded data is cleared and the tool goes back to the example figures. Choose your backup zip again to carry on.</p></div>
+  </details>
+
+  <div class="faq-group">Finding and using reports</div>
+  <details class="faq-item">
+    <summary>How are the reports organised?<span class="chev"></span></summary>
+    <div class="a"><p>Under six headings: <strong>Financial statements</strong>, <strong>Nominal ledger</strong>, <strong>Sales and clients</strong>, <strong>Purchases and suppliers</strong>, <strong>Products</strong> and <strong>Advanced</strong>. The first five hold the standard reports you'll recognise from QuickFile, and each report card shows where the same report lives in QuickFile. Use the search box, the heading buttons or the report library on the left to find what you need.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>What's in the Advanced section?<span class="chev"></span></summary>
+    <div class="a"><p>Reports QuickFile doesn't offer, or only offers one record or account at a time. They're grouped into areas:</p><ul><li>Sales analysis and purchase analysis (line-item detail, monthly summaries, year-on-year)</li><li>Customer and supplier insights (top clients and suppliers, how quickly clients pay)</li><li>Payment allocations (which payment paid which invoice)</li><li>Projects (project summary, sales and profit by project)</li><li>Banking (all-account exports, untagged lines, balance checks)</li><li>Contacts and addresses, Team, and Data checks</li></ul></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why is a report greyed out?<span class="chev"></span></summary>
+    <div class="a"><p>It needs a file your backup doesn't contain. For example, the team reports need the team members file and the bank reports need the bank statement files. If you think the file should be there, try exporting a fresh backup.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Can I download the results as a file?<span class="chev"></span></summary>
+    <div class="a"><p>Yes. <strong>Export CSV</strong> saves the table on screen — with your filters and sort order — as a .csv file you can open in Excel or Google Sheets. <strong>Copy CSV</strong> copies the same data to your clipboard instead. On very long reports only the first 1,500 rows are shown on screen, but both buttons always include every row.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Can I jump from a list to a client's or supplier's statement?<span class="chev"></span></summary>
+    <div class="a"><p>Yes — in the client and supplier lists, the monthly balance reports and the top clients and suppliers rankings, click a name to open that contact's statement.</p></div>
+  </details>
+
+  <div class="faq-group">Understanding the figures</div>
+  <details class="faq-item">
+    <summary>Why don't the figures here exactly match a report inside QuickFile?<span class="chev"></span></summary>
+    <div class="a"><p>This tool calculates everything itself from the backup's data rather than using QuickFile's report engine, so definitions can differ slightly — for example net versus gross, or which date a line is counted against. QuickFile remains the source of truth for your accounts.</p><p>Also remember that QuickFile backups are taken from a copy of your data that can be up to 24 hours old, so very recent entries may not appear yet.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why aren't VAT returns, ageing or cash-based reports included?<span class="chev"></span></summary>
+    <div class="a"><p>The backup doesn't hold everything needed to reproduce those reports exactly — for example due dates for ageing, or QuickFile's VAT scheme settings and adjustments. Rather than show figures that might not match, those reports are left out: please use QuickFile for cash-based profit and loss, debtor and creditor ageing, VAT returns and the statement of cash flows.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>How do I check the statements have been read correctly?<span class="chev"></span></summary>
+    <div class="a"><p>Two quick checks: the Balance sheet's <strong>Difference</strong> figure should be £0.00, and the Trial balance's closing debit and credit columns should agree. If both are true, every posting in your nominal ledger has been read.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>What do the colours and icons on the payment allocations report mean?<span class="chev"></span></summary>
+    <div class="a"><p>Each invoice gets its own colour, and the payment allocated to it shows the same colour with an arrow to the invoice number. The <strong>bank icon</strong> means the payment matches a line on your bank statement on the same day. The <strong>split icon</strong> means one bank payment was shared across several invoices. <em>Paid before invoice</em> marks a prepayment, and a negative running balance is shown as a credit.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why don't I see my project or property tags?<span class="chev"></span></summary>
+    <div class="a"><p>Reports grouped by project need project data in the backup. When you create the backup in QuickFile, tick <strong>Include Projects</strong> — it isn't ticked by default, and without it your tags won't come through.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why does a bank account show no nominal code or name?<span class="chev"></span></summary>
+    <div class="a"><p>The tool only labels an account when it can match it to a nominal code with confidence from your nominal ledger. If it can't, it still shows the account and all its transactions — it just leaves the code and name blank rather than guessing.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why are some addresses, emails or bank details blank?<span class="chev"></span></summary>
+    <div class="a"><p>The contact reports show exactly what's saved on each client and supplier record in QuickFile. If a field is blank here, it's blank in QuickFile too — add it there and it will appear in your next backup.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Does a possible duplicate or a gap in numbering mean something is wrong?<span class="chev"></span></summary>
+    <div class="a"><p>Not necessarily. A possible duplicate can be a regular bill of the same amount, and a gap in numbering usually means a record was deleted in QuickFile. These reports simply point out things worth a second look.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>A report looks wrong — what should I check first?<span class="chev"></span></summary>
+    <div class="a"><p>Check you've loaded your own backup rather than the example data (the status next to the search box confirms it), then check the report's dates and filters — a figure that looks missing is often just outside the range selected. If something you entered recently is missing, export a fresh backup a little later.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>How large a backup can this handle?<span class="chev"></span></summary>
+    <div class="a"><p>There's no hard limit — backups with tens of thousands of ledger postings and bank lines work fine. A very large backup covering many years may just take a few extra seconds to load.</p></div>
+  </details>
+
+  <div class="faq-group">About QuickFile</div>
+  <details class="faq-item">
+    <summary>Does this replace QuickFile?<span class="chev"></span></summary>
+    <div class="a"><p>No. You still raise invoices, record payments, reconcile your bank and file returns in QuickFile as normal. This tool only reads a backup of that data to give you extra reports and exports.</p></div>
+  </details>
+
+</div>
+
+<footer class="page-footer">
+  Want the full walkthrough? See the <a href="guide.html">user guide</a> or head back to the <a href="index.html">reporting tool</a>.
+</footer>
+
+</body>
+</html>

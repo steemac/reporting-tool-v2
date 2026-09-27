@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ledger Line Reports — Guide</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Public+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#ffffff; --surface-alt:#f4f6f9; --border:#e3e8f0;
+    --text:#1c2530; --text-muted:#5b6a85;
+    --brand-blue:#2f6feb; --brand-blue-dark:#1f4fc4;
+    --brand-gradient:linear-gradient(135deg,#2f5fe0 0%,#3fa0e6 100%);
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.6;}
+
+  .site-nav{background:#ffffff;border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:26px;padding:14px 20px;flex-wrap:wrap;}
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none;}
+  .logo-text{font-weight:800;font-size:21px;letter-spacing:.2px;color:var(--brand-blue);}
+  .logo-badge{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--brand-blue);background:#eaf1fe;border-radius:6px;padding:3px 8px;text-transform:uppercase;}
+  .nav-links{display:flex;align-items:center;gap:22px;margin-right:auto;flex-wrap:wrap;}
+  .nav-links a{color:#3a4658;text-decoration:none;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;}
+  .nav-links a:hover{color:var(--brand-blue);}
+  .nav-links a.active{color:var(--brand-blue);}
+  .nav-actions{display:flex;align-items:center;gap:10px;flex:none;}
+  .btn-nav{display:inline-flex;align-items:center;gap:6px;background:var(--brand-blue);color:#fff;border-radius:8px;padding:8px 16px;font-size:13.5px;font-weight:700;text-decoration:none;border:1px solid var(--brand-blue);white-space:nowrap;}
+  .btn-nav:hover{background:var(--brand-blue-dark);border-color:var(--brand-blue-dark);}
+  .btn-nav.outline{background:#fff;color:var(--brand-blue);}
+  .btn-nav.outline:hover{background:#eaf1fe;}
+
+  .page-head{background:var(--brand-gradient);color:#fff;padding:38px 20px 44px;text-align:center;}
+  .page-head .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:6px 16px;font-size:12.5px;font-weight:600;margin-bottom:14px;}
+  .page-head h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(24px,3.6vw,34px);margin:0 0 10px;}
+  .page-head p{max-width:60ch;margin:0 auto;color:rgba(255,255,255,.92);font-size:14.5px;}
+
+  .wrap{max-width:820px;margin:0 auto;padding:40px 20px 70px;}
+  .toc{background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:36px;}
+  .toc div.title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--brand-blue);margin-bottom:8px;}
+  .toc ul{margin:0;padding-left:20px;columns:2;column-gap:24px;}
+  .toc li{margin-bottom:6px;font-size:13.5px;}
+  .toc a{color:var(--text);text-decoration:none;}
+  .toc a:hover{color:var(--brand-blue);text-decoration:underline;}
+
+  section.g{margin-bottom:38px;padding-bottom:34px;border-bottom:1px solid var(--border);}
+  section.g:last-child{border-bottom:none;}
+  section.g h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;margin:0 0 12px;color:#122142;}
+  section.g h3{font-size:15.5px;font-weight:700;margin:20px 0 6px;color:#122142;}
+  section.g p{margin:0 0 12px;color:var(--text);}
+  section.g ul,section.g ol{margin:0 0 12px;padding-left:22px;}
+  section.g li{margin-bottom:6px;}
+  section.g strong{color:#122142;}
+  .callout{background:#eef4ff;border:1px solid #cfe0fb;border-radius:10px;padding:14px 16px;font-size:13.5px;color:#1f3a70;margin:16px 0 0;}
+  .callout strong{color:#1f3a70;}
+  .guide-img{margin:14px 0 18px;}
+  .guide-img img{max-width:100%;height:auto;display:block;border:1px solid var(--border);border-radius:10px;box-shadow:0 2px 10px rgba(20,30,60,.08);}
+  .guide-img img.small{max-width:340px;}
+  .guide-img .cap{font-size:12px;color:var(--text-muted);margin-top:6px;}
+
+  footer.page-footer{max-width:820px;margin:0 auto;padding:0 20px 60px;color:var(--text-muted);font-size:12.5px;}
+  footer.page-footer a{color:var(--brand-blue);text-decoration:none;font-weight:600;}
+  section.g h4{font-size:14.5px;font-weight:700;margin:16px 0 4px;color:#122142;}
+  .area{border:1px solid #d3e0f8;border-radius:12px;padding:4px 18px 14px;margin:18px 0 0;}
+  .area > h3{margin:0 -18px 10px;padding:12px 18px;background:linear-gradient(90deg,#e9f0fe 0%,#f6f9ff 100%);border-bottom:2px solid var(--brand-blue);border-radius:12px 12px 0 0;}
+  .area > p.lead{color:var(--text-muted);font-size:14px;margin:0 0 6px;}
+  .where{display:inline-block;font-size:12px;color:#1f4fc4;background:#e9f0fe;border-radius:6px;padding:2px 8px;margin:-4px 0 6px;}
+  .where.only{background:#fff4ea;color:#b6541c;}
+  .rep{padding:2px 0 8px;border-bottom:1px dashed var(--border);}
+  .rep:last-child{border-bottom:0;}
+  .rep p{margin:0 0 6px;}
+  .toc ul.sub{columns:1;margin:4px 0 0;padding-left:16px;}
+  kbd{font-family:inherit;font-size:12.5px;background:var(--surface-alt);border:1px solid var(--border);border-radius:5px;padding:1px 6px;}
+</style>
+
+</head>
+<body>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-text">QUICKFILE</span>
+      <span class="logo-badge">Reporting</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Reporting Tool</a>
+      <a href="https://support.quickfile.co.uk/" target="_blank" rel="noopener">Support</a>
+      <a href="https://community.quickfile.co.uk" target="_blank" rel="noopener">Community</a>
+      <a href="https://www.youtube.com/@QuickFileHelpGuides" target="_blank" rel="noopener">
+        <svg width="20" height="14" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1a3.5 3.5 0 0 0-2.46-2.48C22.76 0 14 0 14 0S5.24 0 3.06.62A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9 3.5 3.5 0 0 0 2.46 2.48C5.24 20 14 20 14 20s8.76 0 10.94-.62a3.5 3.5 0 0 0 2.46-2.48A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.3V5.7L18.5 10l-7.3 4.3z" fill="#fff"/></svg>
+        YouTube
+      </a>
+      <a class="active" href="guide.html" aria-current="page">Guide</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn-nav outline" href="https://www.quickfile.co.uk/register" target="_blank" rel="noopener">Sign Up</a>
+      <a class="btn-nav" href="https://www.quickfile.co.uk/login/search" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        Log In
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="eyebrow">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6l8-4z"/></svg>
+    Ledger Line Reports
+  </div>
+  <h1>User Guide</h1>
+  <p>What the tool does, where its numbers come from, how to find your way around, and what every one of its 58 reports shows — in plain English.</p>
+</div>
+
+
+<div class="wrap">
+  <div class="toc">
+    <div class="title">On this page</div>
+    <ul>
+      <li><a href="#overview">What this tool is</a></li>
+      <li><a href="#data">Where your numbers come from</a></li>
+      <li><a href="#howto">Using the tool, step by step</a></li>
+      <li><a href="#finding">Finding your way around</a></li>
+      <li><a href="#r-statements">Financial statements</a> <span style="color:var(--text-muted)">(5)</span></li>
+      <li><a href="#r-ledger">Nominal ledger</a> <span style="color:var(--text-muted)">(2)</span></li>
+      <li><a href="#r-sales">Sales and clients</a> <span style="color:var(--text-muted)">(7)</span></li>
+      <li><a href="#r-purchases">Purchases and suppliers</a> <span style="color:var(--text-muted)">(8)</span></li>
+      <li><a href="#r-products">Products</a> <span style="color:var(--text-muted)">(1)</span></li>
+      <li><a href="#r-advanced">Advanced</a> <span style="color:var(--text-muted)">(35)</span><ul class="sub"><li><a href="#a-sales-analysis">Sales analysis</a></li><li><a href="#a-purchase-analysis">Purchase analysis</a></li><li><a href="#a-customer-and-supplier-insights">Customer and supplier insights</a></li><li><a href="#a-payment-allocations">Payment allocations</a></li><li><a href="#a-projects">Projects</a></li><li><a href="#a-banking">Banking</a></li><li><a href="#a-contacts-and-addresses">Contacts and addresses</a></li><li><a href="#a-team">Team</a></li><li><a href="#a-data-checks">Data checks</a></li></ul></li>
+      <li><a href="#export">Exporting your results</a></li>
+      <li><a href="#know">Good to know</a></li>
+    </ul>
+  </div>
+
+  <section class="g" id="overview">
+    <h2>What this tool is</h2>
+    <p>Ledger Line Reports is a companion tool for your QuickFile account. You give it a backup zip file exported from QuickFile, and it builds 58 reports from it: the standard statements, ledgers, sales and purchase reports you know from QuickFile, plus an <strong>Advanced</strong> section of reports QuickFile doesn't offer — like payment allocations, profit by property, year-on-year comparisons, bank exports across every account, address lists and data checks.</p>
+    <p>It runs entirely in your web browser: there's nothing to install and no account or sign-up. It works alongside your QuickFile account rather than replacing it — QuickFile is still where you raise invoices, record payments and file your VAT return. It isn't an official QuickFile feature.</p>
+  </section>
+
+  <section class="g" id="data">
+    <h2>Where your numbers come from</h2>
+    <p>Everything you see comes from the single backup zip file you choose. That backup contains a full copy of your invoices, purchases, payments, nominal ledger, contacts, bank statement lines and team logins, as a set of files QuickFile writes out for you.</p>
+    <p>When you load the zip, the tool reads those files and matches them up the way an accountant would: each invoice line is joined to its client or supplier, the nominal code it was posted to and its project tag; each payment is linked to the invoice it was allocated to; and the financial statements are added up from every posting in your nominal ledger. The bank reports use your bank statement lines directly.</p>
+    <p><strong>Nothing is uploaded anywhere.</strong> The zip file is opened and read on your own computer, inside this browser tab — it's never sent to QuickFile, to us, or to any other server. If you close the tab or refresh the page, the data is gone and you'd need to choose the zip again.</p>
+  </section>
+
+  <section class="g" id="howto">
+    <h2>Using the tool, step by step</h2>
+    <ol>
+      <li>
+        <strong>Export a backup from QuickFile.</strong> In QuickFile, go to <strong>Account Settings → All Settings → Monthly Backups</strong>, enter an email address, and click <strong>Run Now</strong>. You'll receive an email shortly afterwards with a link to download your backup — save the zip file somewhere you can find it (you don't need to unzip it).
+        <div class="guide-img">
+          <img class="small" src="data:image/png;base64,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" alt="QuickFile settings menu showing the Monthly backups option, described as: obtain monthly backups of your data direct to your email or Dropbox">
+          <div class="cap">The Monthly backups option under Account Settings → All Settings.</div>
+        </div>
+        <div class="guide-img">
+          <img src="data:image/png;base64,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" alt="QuickFile Backup Settings page with a Start Date, Frequency set to Monthly, Backup to Email selected, an Include Projects checkbox, a Send to email field, and Cancel Schedule, Run now and Update schedule buttons">
+          <div class="cap">The Backup Settings page — enter your email under "Send to" and click "Run now".</div>
+        </div>
+      </li>
+      <li><strong>Choose the zip file.</strong> Click <strong>Choose backup .zip</strong> at the top of the page and select the file you downloaded. A short progress bar shows while your backup is read — it takes about five seconds — and then the page switches from the example figures to your own data. The status next to the search box confirms your backup is loaded and the latest date it contains.</li>
+      <li><strong>Pick a report.</strong> Browse the report cards, use the report library on the left, or type in the <strong>Find a report</strong> box (for example "trial balance", "statement" or "untagged"). Each card tells you where the same report lives in QuickFile, or that it's only available here.</li>
+      <li><strong>Narrow it down.</strong> Each report has its own filters — dates, a client or supplier, a nominal code, a bank account, a status or a search box, depending on the report. The table updates as soon as you change anything, and the figures in the blue summary strip update with it. <strong>Reset filters</strong> puts everything back to the defaults.</li>
+      <li><strong>Sort and review.</strong> On list reports, click any column heading to sort by it; click again to reverse the order. Statements such as the Profit and loss keep their accounting order instead.</li>
+      <li><strong>Export what you're looking at.</strong> <strong>Export CSV</strong> saves the table on screen — filtered and sorted — as a .csv file you can open in Excel or Google Sheets. <strong>Copy CSV</strong> puts the same data on your clipboard to paste straight into a spreadsheet.</li>
+    </ol>
+    <p>The tool opens with example figures already in place, so you can try every report before loading a real backup.</p>
+    <div class="callout"><strong>Reporting on project tags?</strong> Sales by project, Profit by project, and anything else grouped by property or job need project data to be in the backup. When you create the backup, tick the <strong>Include Projects</strong> box — it isn't ticked by default, and without it your project tags won't come through.</div>
+  </section>
+
+  <section class="g" id="finding">
+    <h2>Finding your way around</h2>
+    <p>Reports are grouped under six headings. The first five match the areas of QuickFile they come from; the sixth, <strong>Advanced</strong>, holds the extra reports and is split into its own areas (sales analysis, purchase analysis, customer and supplier insights, payment allocations, projects, banking, contacts and addresses, team, and data checks).</p>
+    <ul>
+      <li><strong>Heading buttons</strong> under the search box jump straight to a heading. Inside Advanced, a second row of buttons jumps to each area.</li>
+      <li><strong>The report library</strong> down the left-hand side lists every report and highlights the one you have open. (On a phone it's replaced by the report cards.)</li>
+      <li><strong>All reports</strong> above a report's title takes you back to the full list.</li>
+      <li><strong>Links between reports:</strong> in the client and supplier lists, rankings and monthly balance reports, clicking a name opens that contact's statement.</li>
+      <li><strong>Greyed-out reports</strong> need a file your backup doesn't include — for example team reports need the team members file, and bank reports need bank statement files.</li>
+    </ul>
+  </section>
+<section class="g" id="r-statements">
+<h2>Financial statements</h2>
+<p>Profit and loss, balance sheet and trial balance, straight from your nominal ledger.</p>
+<p>All five statements are worked out from every posting in your nominal ledger, using QuickFile's own code ranges: 0001–3999 are balance sheet accounts and 4000–9999 are profit and loss accounts. Opening balances are already part of the ledger, so nothing needs to be added by hand. The Balance sheet shows a <strong>Difference</strong> figure, which should always be £0.00, and the Trial balance's closing debit and credit columns should always agree — both are quick confirmation that the backup was read completely.</p>
+<div class="rep"><h3>Profit and loss</h3>
+<p>Income, cost of sales and expenses for the dates you pick, grouped by nominal code and worked out from every posting in the nominal ledger (accruals basis — the same basis as QuickFile&#x27;s own P&amp;L).</p>
+<span class="where">In QuickFile: Reports → Profit and loss</span></div>
+<div class="rep"><h3>Segmented profit and loss</h3>
+<p>Profit and loss with a column per month, calendar quarter or calendar year across the dates you pick, plus a total column.</p>
+<span class="where">In QuickFile: Reports → Show all reports → Popular → Segmented Profit And Loss</span></div>
+<div class="rep"><h3>Balance sheet</h3>
+<p>What the business owns and owes at the date you pick, from every nominal ledger posting up to and including that date. Profit and loss to date is shown under capital and reserves.</p>
+<span class="where">In QuickFile: Reports → Balance sheet</span></div>
+<div class="rep"><h3>Trial balance</h3>
+<p>Every nominal code&#x27;s opening balance (before the From date), debits and credits in the period, and closing balance split into debit and credit columns. The two closing columns always agree.</p>
+<span class="where">In QuickFile: Reports → Trial Balance</span></div>
+<div class="rep"><h3>Income and expenditure breakdown</h3>
+<p>Each income and expense account&#x27;s share of total income or total spending for the dates you pick, with the net profit margin. The table version of QuickFile&#x27;s Income / Expenditure Flows chart.</p>
+<span class="where">In QuickFile: Reports → Show all reports → Popular → Income / Expenditure Flows</span></div>
+</section>
+<section class="g" id="r-ledger">
+<h2>Nominal ledger</h2>
+<p>Your chart of accounts and every individual posting behind it.</p>
+
+<div class="rep"><h3>Chart of accounts</h3>
+<p>Every nominal code in your chart of accounts, which report it belongs to, how many postings it has and its balance at the date you pick (debits positive, credits negative).</p>
+<span class="where">In QuickFile: Reports → Chart of accounts</span></div>
+<div class="rep"><h3>Nominal ledger detail</h3>
+<p>Individual nominal ledger postings in date order. Pick one nominal code to see a running balance, including everything posted before the From date.</p>
+<span class="where">In QuickFile: Reports → Chart of accounts → Export Data (detailed)</span></div>
+</section>
+<section class="g" id="r-sales">
+<h2>Sales and clients</h2>
+<p>Clients, invoices, payments received, statements and who owes you.</p>
+<p>Payments are linked to invoices using the invoice number QuickFile records against every payment, so statements and "at a date" reports use real payment dates. Click any client name in the Client list or Client monthly balance to jump straight to that client's statement.</p>
+<div class="rep"><h3>Client list</h3>
+<p>Every client record with contact details, how much you&#x27;ve invoiced them, what&#x27;s still outstanding, and the balance QuickFile held for them when the backup was taken. Click a name to open their statement.</p>
+<span class="where">In QuickFile: Sales → View clients → Export Data</span></div>
+<div class="rep"><h3>Sales invoices</h3>
+<p>One row per sales invoice or credit note (not per line), with its totals, the amount paid so far, what&#x27;s left to pay and its status.</p>
+<span class="where">In QuickFile: Sales → Show all sales → Export data</span></div>
+<div class="rep"><h3>Outstanding invoices</h3>
+<p>Sales invoices with money still owing when the backup was taken, with the number of days since each was issued.</p>
+<span class="where">In QuickFile: Sales → Outstanding invoices</span></div>
+<div class="rep"><h3>Payments received</h3>
+<p>Every payment received from clients, the invoice it was allocated to and the bank account it was paid into. Refunds show as negative amounts.</p>
+<span class="where">In QuickFile: Sales → View payments → Export to CSV</span></div>
+<div class="rep"><h3>Client statement</h3>
+<p>Every invoice, credit note and payment for one client in date order, with a running balance and the balance brought forward from before the From date.</p>
+<span class="where">In QuickFile: Client record → View → Statement</span></div>
+<div class="rep"><h3>Client monthly balance</h3>
+<p>Money still owed by each client when the backup was taken, split by the month the invoice was issued: the last 6 months ending the month you pick, plus everything older. Click a name to open their statement.</p>
+<span class="where">In QuickFile: Reports → Show all reports → Popular → Client Monthly Balance Report</span></div>
+<div class="rep"><h3>Debtors at a date</h3>
+<p>Every sales invoice that was still unpaid on the date you pick, worked out from the invoice total less the payments dated on or before that day.</p>
+<span class="where">In QuickFile: Reports → Show all reports → Other → Debtor / Creditor Report</span></div>
+</section>
+<section class="g" id="r-purchases">
+<h2>Purchases and suppliers</h2>
+<p>Suppliers, purchases, payments made, statements and who you owe.</p>
+<p>Deleted purchases are left out of every report. Click any supplier name in the Supplier list or Supplier monthly balance to open that supplier's statement. The Supplier payment run uses the bank details saved on each supplier record in QuickFile — if a supplier has none, those columns are blank and the report tells you how many are missing.</p>
+<div class="rep"><h3>Supplier list</h3>
+<p>Every supplier record with its supplier reference, contact details, default nominal code, how much you&#x27;ve been invoiced and what&#x27;s still unpaid. Click a name to open their statement.</p>
+<span class="where">In QuickFile: Purchases → View suppliers → Export to CSV</span></div>
+<div class="rep"><h3>Purchase invoices</h3>
+<p>One row per purchase invoice or supplier credit note (not per line), with its totals, the amount paid, what&#x27;s left to pay and its status. Deleted purchases are left out.</p>
+<span class="where">In QuickFile: Purchases → Show all purchases → Export data</span></div>
+<div class="rep"><h3>Outstanding purchases</h3>
+<p>Purchase invoices with money still owing when the backup was taken, with the number of days since each was received.</p>
+<span class="where">In QuickFile: Purchases → Outstanding purchases</span></div>
+<div class="rep"><h3>Payments made</h3>
+<p>Every payment made to suppliers, the purchase it was allocated to and the bank account it was paid from. Refunds show as negative amounts.</p>
+<span class="where">In QuickFile: Purchases → View payments → Export to CSV</span></div>
+<div class="rep"><h3>Supplier statement</h3>
+<p>Every purchase, supplier credit and payment for one supplier in date order, with a running balance of what you owe them.</p>
+<span class="where">In QuickFile: Supplier record (account history)</span></div>
+<div class="rep"><h3>Supplier monthly balance</h3>
+<p>Money still owed to each supplier when the backup was taken, split by invoice month: the last 6 months ending the month you pick, plus everything older. Click a name to open their statement.</p>
+<span class="where">In QuickFile: Reports → Show all reports → Popular → Supplier Monthly Balance Report</span></div>
+<div class="rep"><h3>Creditors at a date</h3>
+<p>Every purchase invoice that was still unpaid on the date you pick, worked out from the invoice total less the payments dated on or before that day.</p>
+<span class="where">In QuickFile: Reports → Show all reports → Other → Debtor / Creditor Report</span></div>
+<div class="rep"><h3>Supplier payment run</h3>
+<p>Each supplier you owe money to, with the bank details held on their record, ready to adapt for your bank&#x27;s bulk payment upload. Switch to Detailed to list the individual invoices under each supplier.</p>
+<span class="where">In QuickFile: Reports → Show all reports → Other → Batch Supplier Payment Report</span></div>
+</section>
+<section class="g" id="r-products">
+<h2>Products</h2>
+<p>The items and services saved in your sales inventory.</p>
+
+<div class="rep"><h3>Sales inventory</h3>
+<p>The reusable product and time items saved in QuickFile, with their default price, quantity, VAT rate and the nominal code they post to, plus how many invoice lines have used each one.</p>
+<span class="where">In QuickFile: Sales → Sales Inventory</span></div>
+</section>
+<section class="g" id="r-advanced">
+<h2>Advanced</h2>
+<p>Extra reports QuickFile doesn&#x27;t offer, or only offers one account or screen at a time — sales and purchase analysis, customer insights, projects, banking exports, contacts, team and data checks.</p>
+<p>These are the reports that go beyond QuickFile's own screens: combinations it doesn't offer, lists it only shows one account or record at a time, and checks that help you tidy your books. Each one says whether there's a closest equivalent in QuickFile or whether it only exists here.</p>
+<div class="area" id="a-sales-analysis"><h3>Sales analysis</h3>
+<p class="lead">Line-level sales and trends by client, item and nominal code.</p>
+<p>The monthly summaries show the 12 months ending a month you pick, with every client, item or code that appears anywhere in your data listed even if it had no activity in that window. The year-on-year reports put five years side by side, either as calendar years or as 12-month periods ending on a date you choose. Where item names weren't used on invoices, the line description is used instead, so similar lines typed differently appear separately.</p>
+<div class="rep"><h4>Sales invoice items</h4>
+<p>Every sales invoice line, with the invoice&#x27;s client name and account reference, tag and status pulled in, and the nominal code&#x27;s account name.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Sales by client</h4>
+<p>Net sales total per client, by month, for the 12 months ending the month you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Sales by item</h4>
+<p>Net sales total per item, by month, for the 12 months ending the month you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Quantity sold by item</h4>
+<p>Total quantity invoiced per item, by month, for the 12 months ending the month you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Sales by nominal</h4>
+<p>Net sales total per nominal code, by month, for the 12 months ending the month you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Income by year (calendar)</h4>
+<p>Gross income totals (net + VAT) for the last 5 calendar years, ending the year you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Income by year (custom year-end)</h4>
+<p>Net income totals for the last 5 twelve-month periods, each ending on the date you pick (e.g. a fiscal year end).</p>
+<span class="where only">Advanced — not available in QuickFile</span></div></div>
+<div class="area" id="a-purchase-analysis"><h3>Purchase analysis</h3>
+<p class="lead">Line-level spending and trends by supplier and nominal code.</p>
+
+<div class="rep"><h4>Purchase invoice items</h4>
+<p>Every purchase invoice line, with the supplier name and account reference, tag and status pulled in, and the nominal code&#x27;s account name.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Purchases by supplier</h4>
+<p>Net purchase total per supplier, by month, for the 12 months ending the month you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Purchases by nominal</h4>
+<p>Net purchase total per nominal code, by month, for the 12 months ending the month you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Expenditure by year (calendar)</h4>
+<p>Gross expenditure totals (net + VAT) for the last 5 calendar years, ending the year you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Expenditure by year (custom year-end)</h4>
+<p>Net expenditure totals for the last 5 twelve-month periods, each ending on the date you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div></div>
+<div class="area" id="a-customer-and-supplier-insights"><h3>Customer and supplier insights</h3>
+<p class="lead">Who matters most, who has gone quiet and who pays slowly.</p>
+
+<div class="rep"><h4>Top clients</h4>
+<p>Clients ranked by net sales for the dates you pick, with each client&#x27;s share of the total, average invoice, first and most recent invoice, months since their last invoice and what they still owe. Useful for spotting reliance on a few clients or clients who have gone quiet.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Top suppliers</h4>
+<p>Suppliers ranked by net spend for the dates you pick, with each supplier&#x27;s share, average purchase, first and most recent purchase and anything still unpaid.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>How quickly clients pay</h4>
+<p>For every fully paid sales invoice, the days from issue to the final payment, averaged per client, with the slowest payment and the share paid within the client&#x27;s payment terms (terms of 0 days mean due on receipt).</p>
+<span class="where only">Advanced — not available in QuickFile</span></div></div>
+<div class="area" id="a-payment-allocations"><h3>Payment allocations</h3>
+<p class="lead">Which payments and credits were allocated to which invoice, with prepayments and split payments marked.</p>
+<p>How to read the markers: each invoice gets its own <strong>colour</strong>, and every payment allocated to it carries the same colour with an arrow to the invoice number. The <strong>bank icon</strong> means the payment matches a line on that bank account's statement on the same day. The <strong>split icon</strong> means one bank payment was shared across several invoices — the tool only marks this when the individual amounts add up to a single bank line. A payment dated before its invoice is shown as <em>paid before invoice</em>, and the invoice line then says how much was already prepaid. In the Timeline layout a negative running balance is shown as a credit.</p>
+<div class="rep"><h4>Client payment allocations</h4>
+<p>For one client, every invoice and every payment in date order, showing which invoice each payment was allocated to, payments made before the invoice (prepayments), payments split across several invoices, and the running balance. Switch to By invoice to see each invoice followed by the payments against it.</p>
+<span class="where">Closest in QuickFile: Each invoice&#x27;s payment history, one invoice at a time</span></div>
+<div class="rep"><h4>Supplier payment allocations</h4>
+<p>For one supplier, every purchase invoice and payment in date order, showing which purchase each payment was allocated to, payments made before the invoice, split payments and the running balance owed. Switch to By invoice to see each purchase followed by its payments.</p>
+<span class="where">Closest in QuickFile: Each purchase&#x27;s payment history, one purchase at a time</span></div></div>
+<div class="area" id="a-projects"><h3>Projects</h3>
+<p class="lead">Income, costs and profit for each project or property tag.</p>
+<div class="callout"><strong>Reporting on project tags?</strong> Sales by project, Profit by project, and anything else grouped by property or job need project data to be in the backup. When you create the backup, tick the <strong>Include Projects</strong> box — it isn't ticked by default, and without it your project tags won't come through.</div>
+<div class="rep"><h4>Project summary</h4>
+<p>For each project tag, the number of sales and purchase invoices, net income, net costs, profit and margin for the dates you pick (invoice basis). All time by default.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Sales by project</h4>
+<p>Net sales total per project tag, by month, for the 12 months ending the month you pick.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Profit by project</h4>
+<p>Net rent income minus net costs (repairs, utilities, etc.) tagged to the same property, by month, for the 12 months ending the month you pick. Profit = sales net minus purchases net sharing that project tag.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div></div>
+<div class="area" id="a-banking"><h3>Banking</h3>
+<p class="lead">Statement exports, untagged items and balance checks across every account.</p>
+<p>Bank reports use only the bank statement lines in your backup — never figures from invoices. Each account is labelled with its nominal code and name where the tool can identify it with confidence from your nominal ledger; otherwise it's shown as "Bank account" plus its number. Only accounts with an opening balance recorded in QuickFile start from that figure; the rest start from zero.</p>
+<div class="rep"><h4>Bank account summary</h4>
+<p>One row per bank account in the backup: its nominal code, the first and last transaction dates, the number of transactions, total money in and out, and how many are still untagged. The closing balance includes an opening balance where QuickFile has one.</p>
+<span class="where">Closest in QuickFile: Banking → All bank accounts</span></div>
+<div class="rep"><h4>Bank transactions export</h4>
+<p>Every line from every bank statement in the backup, all accounts together, with the account&#x27;s name and nominal code, money in and out, and whether it has been tagged.</p>
+<span class="where">Closest in QuickFile: Banking → a bank statement → Export to CSV (one account at a time)</span></div>
+<div class="rep"><h4>Untagged bank transactions</h4>
+<p>Every bank transaction not yet tagged to an invoice, purchase or nominal code, across all accounts, as at the backup date.</p>
+<span class="where">Closest in QuickFile: Banking → a bank statement (untagged lines)</span></div>
+<div class="rep"><h4>Money in and out by month</h4>
+<p>Money in, money out and the net movement for each month, from the bank statement lines themselves, for one account or all of them.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Bank account balances</h4>
+<p>Opening balance (where known) and running closing balance for each bank account found in the backup&#x27;s Bank_Accounts folder, at monthly, half-monthly (the 15th and last day of each month) or yearly checkpoints ending the date you pick — so you can check whether the balance at a point in time matches the real statement.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Daily bank balances</h4>
+<p>Closing balance at the end of every day in one calendar month, for each bank account. Pick any date and the whole month it falls in is shown.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div></div>
+<div class="area" id="a-contacts-and-addresses"><h3>Contacts and addresses</h3>
+<p class="lead">Address lists for mail merge, a contact directory and full record exports.</p>
+<p>These lists show exactly what is saved on each client and supplier record in QuickFile — if an address, email or phone number is blank here, it's blank in QuickFile too. Address lines are in separate columns so the export drops straight into a mail merge or label template, with a one-line version at the end for pasting into letters.</p>
+<div class="rep"><h4>Client address list</h4>
+<p>Each client&#x27;s postal address in separate columns (for mail merge or labels) and as a single line, with the primary contact&#x27;s name, email and telephone.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Supplier address list</h4>
+<p>Each supplier&#x27;s postal address in separate columns and as a single line, with the contact&#x27;s name, email, telephone and website.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Contact directory</h4>
+<p>One combined list of every client and supplier contact: who they are, how to reach them and where they&#x27;re based.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Full client export</h4>
+<p>Every column QuickFile stores for each client, straight from the backup: IDs, addresses, contacts, terms, currency, company and VAT numbers, trading style and balance.</p>
+<span class="where">Closest in QuickFile: Sales → View clients → Export Data</span></div>
+<div class="rep"><h4>Full supplier export</h4>
+<p>Every column QuickFile stores for each supplier, straight from the backup, including default nominal code and bank account details.</p>
+<span class="where">Closest in QuickFile: Purchases → View suppliers → Export to CSV</span></div></div>
+<div class="area" id="a-team"><h3>Team</h3>
+<p class="lead">Who has access to the account and when they logged in.</p>
+
+<div class="rep"><h4>Team members</h4>
+<p>Each user with access to this QuickFile account: name, email, telephone, whether they&#x27;re an administrator, when they were added, their last login and how many logins are in the backup&#x27;s login history.</p>
+<span class="where">Closest in QuickFile: Account Settings → Team management</span></div>
+<div class="rep"><h4>Team login history</h4>
+<p>The login history included in the backup: the date and time, the team member, their IP address and the browser and device they used.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div></div>
+<div class="area" id="a-data-checks"><h3>Data checks</h3>
+<p class="lead">Spot possible duplicates and missing or deleted document numbers.</p>
+<p>These reports point you to things worth a second look — they don't change anything. A possible duplicate may simply be a regular bill of the same amount, and a gap in numbering usually means a record was deleted in QuickFile (the report says when the backup shows it as deleted).</p>
+<div class="rep"><h4>Possible duplicate purchases</h4>
+<p>Purchase invoices that share a supplier and gross amount with another purchase dated within the number of days you pick — worth checking in case the same bill was entered twice. Regular payments of the same amount (rent, subscriptions) will show up if you widen the window.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div>
+<div class="rep"><h4>Gaps in numbering</h4>
+<p>Checks each numbering sequence (sales invoices, credit notes and purchase receipt numbers) for numbers that are missing between the first and last one in the backup. A gap usually means a record was deleted.</p>
+<span class="where only">Advanced — not available in QuickFile</span></div></div>
+</section>
+  <section class="g" id="export">
+    <h2>Exporting your results</h2>
+    <p>Every report has the same two buttons. <strong>Export CSV</strong> saves a .csv file named after the report and today's date (for example <kbd>quickfile-trial-balance-2026-09-27.csv</kbd>). <strong>Copy CSV</strong> copies the same data to your clipboard. Both include exactly what's on screen — your filters and sort order — plus any section headings and total rows.</p>
+    <p>On very long reports, such as the bank transactions export or nominal ledger detail, the screen shows the first 1,500 rows to keep the page quick, but Export CSV and Copy CSV always include every row.</p>
+  </section>
+
+  <section class="g" id="know">
+    <h2>Good to know</h2>
+    <ul>
+      <li><strong>Your backup is a snapshot.</strong> QuickFile backups are taken from a copy of your data that can be up to 24 hours old, so something you entered very recently may not appear yet.</li>
+      <li><strong>Figures can differ slightly from QuickFile's own screens</strong> where definitions differ (for example net versus gross, or which date a line counts against). QuickFile remains the source of truth for your accounts.</li>
+      <li><strong>Some QuickFile reports aren't included</strong> — cash-based profit and loss, debtor and creditor ageing, cash-basis project figures, VAT returns and the statement of cash flows — because the backup doesn't contain everything needed to reproduce them exactly. Use QuickFile for those.</li>
+      <li><strong>Nothing is saved between visits.</strong> Reload your backup each time you open the tool.</li>
+    </ul>
+  </section>
+
+</div>
+
+
+<footer class="page-footer">
+  Have a question this guide doesn't answer? See the <a href="faq.html">FAQ</a> or head back to the <a href="index.html">reporting tool</a>.
+</footer>
+</body>
+</html>
