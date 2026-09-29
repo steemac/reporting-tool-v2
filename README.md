@@ -1,4 +1,4 @@
-# Ledger Line Reports — Version 2 (in development)
+# QuickFile Reports — Version 2 (in development)
 
 Started 27 September 2026 as a copy of Version 1. Version 1 stays untouched in its own folder.
 
