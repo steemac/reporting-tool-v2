@@ -419,9 +419,9 @@
       QuickFile Backup Reporting Tool &nbsp;•&nbsp; Runs 100% In Your Browser
     </div>
     <h1>Your QuickFile Reports, Built From Your Own Backup</h1>
-    <p class="hero-sub">Choose your backup zip and open any of 58 reports — the standard statements, ledgers, sales and purchase reports you know from QuickFile, plus advanced reports QuickFile doesn't offer — all worked out right here in your browser.</p>
+    <p class="hero-sub">Choose your backup zip and open any of 59 reports — the standard statements, ledgers, sales and purchase reports you know from QuickFile, plus advanced reports QuickFile doesn't offer — all worked out right here in your browser.</p>
     <div class="hero-stats">
-      <span class="stat-pill">58 reports under 6 headings</span>
+      <span class="stat-pill">59 reports under 6 headings</span>
       <span class="stat-pill">Nothing is ever uploaded</span>
       <span class="stat-pill">Works with any backup zip</span>
       <span class="stat-pill">Free to use</span>
@@ -551,7 +551,7 @@
       <select id="yoyEndYear"></select>
     </div>
     <div class="field" id="yoyEndDateWrap" hidden>
-      <label for="yoyEndDate">5 years ending</label>
+      <label for="yoyEndDate" id="yoyEndDateLabel">5 years ending</label>
       <input type="date" id="yoyEndDate">
     </div>
     <div class="field search">
@@ -851,6 +851,17 @@
         {value:"item", label:"Item", groupField:"item", noneLabel:"(no item name)"}
       ]
     },
+    income_same_day: {
+      kind:"yoy", sourceReport:"sales", valueBasis:"net", valueFormat:"money", dateMode:"sameDay",
+      label:"Sales on this day (5 years)",
+      desc:"Net sales on one day of the year (e.g. 14 Oct) for the last 5 years, newest year first, so you can compare the same date year on year.",
+      groupChoices: [
+        {value:"project", label:"Project", groupField:"tags", prettify:true, noneLabel:"No project tag"},
+        {value:"nominal", label:"Nominal", groupField:"nominal_code", labelFor: nominalLabelFor, noneLabel:"(no nominal code)"},
+        {value:"client", label:"Client", groupField:"client", noneLabel:"(no client name)"},
+        {value:"item", label:"Item", groupField:"item", noneLabel:"(no item name)"}
+      ]
+    },
     expense_yoy_calendar: {
       kind:"yoy", sourceReport:"purchases", valueBasis:"gross", valueFormat:"money", dateMode:"calendarYear",
       label:"Expenditure by year (calendar)",
@@ -885,7 +896,7 @@
     }
   };
   function nominalLabelFor(raw, r){ return r.nominal_name ? (raw + " — " + r.nominal_name) : raw; }
-  var REPORT_ORDER = ["sales","purchases","sales_by_project","qty_by_item","sales_by_item","sales_by_nominal","sales_by_client","purchases_by_supplier","purchases_by_nominal","profit_by_project","income_yoy_calendar","income_yoy_customend","expense_yoy_calendar","expense_yoy_customend","bank_reconciliation","bank_daily"];
+  var REPORT_ORDER = ["sales","purchases","sales_by_project","qty_by_item","sales_by_item","sales_by_nominal","sales_by_client","purchases_by_supplier","purchases_by_nominal","profit_by_project","income_yoy_calendar","income_yoy_customend","income_same_day","expense_yoy_calendar","expense_yoy_customend","bank_reconciliation","bank_daily"];
 
   var EXAMPLE_BANK_ACCOUNTS = [
     {
@@ -1097,6 +1108,12 @@
         var y = endYear - k;
         buckets.push({key:String(y), label:String(y), start:y+"-01-01", end:y+"-12-31"});
       }
+    } else if(cfg.dateMode === "sameDay"){
+      var dayIso = yoyEndDate.value || todayIso();
+      for(var i=0;i<5;i++){
+        var d = sameDayInYear(dayIso, -i);
+        buckets.push({key:d, label: formatDMonYY(d), start:d, end:d});
+      }
     } else {
       var endIso = yoyEndDate.value || todayIso();
       for(var j=4;j>=0;j--){
@@ -1106,6 +1123,25 @@
       }
     }
     return buckets;
+  }
+  // Same day and month, deltaYears away; 29 Feb becomes 28 Feb in non-leap years.
+  function sameDayInYear(iso, deltaYears){
+    var p = iso.split("-").map(Number);
+    var y = p[0] + deltaYears;
+    var dim = new Date(Date.UTC(y, p[1], 0)).getUTCDate();
+    return isoOf(y, p[1]-1, Math.min(p[2], dim));
+  }
+  // Today, unless no sale in the last 5 years fell on today's day and month; then the latest sale date.
+  function defaultSameDayIso(sourceId){
+    var today = todayIso();
+    var rows = state.rows[sourceId] || [];
+    var days = {};
+    for(var i=0;i<5;i++) days[sameDayInYear(today, -i)] = 1;
+    if(rows.some(function(r){ return days[r.issue_date_iso]; })) return today;
+    return defaultEndDateIso(sourceId);
+  }
+  function defaultYoyDate(cfg){
+    return cfg.dateMode === "sameDay" ? defaultSameDayIso(cfg.sourceReport) : defaultEndDateIso(cfg.sourceReport);
   }
   function defaultEndYear(sourceId){
     var rows = state.rows[sourceId] || [];
@@ -1462,11 +1498,12 @@
       var g = groups.get(gkey);
       var val = cfg.valueBasis === "gross" ? (Number(r.net)||0) + (Number(r.vat)||0) : (Number(r.net)||0);
       buckets.forEach(function(b){
-        if(iso >= b.start && iso <= b.end){ g.byMonth[b.key] += val; g.total += val; }
+        if(iso >= b.start && iso <= b.end){ g.byMonth[b.key] += val; g.total += val; g.hits = (g.hits||0) + 1; }
       });
     });
     var q = yoySearch.value.trim().toLowerCase();
     var rows = Array.from(groups.values());
+    if(cfg.dateMode === "sameDay") rows = rows.filter(function(g){ return g.hits; }); // single days: only groups with sales
     if(q) rows = rows.filter(function(g){ return g.label.toLowerCase().indexOf(q) !== -1; });
     var key = state.pivotSort.key, dir = state.pivotSort.dir === "asc" ? 1 : -1;
     rows.sort(function(a,b){
@@ -1574,7 +1611,8 @@
         yoyEndYear.value = defaultEndYear(cfg.sourceReport);
       } else {
         yoyEndYearWrap.hidden = true; yoyEndDateWrap.hidden = false;
-        yoyEndDate.value = defaultEndDateIso(cfg.sourceReport);
+        $("yoyEndDateLabel").textContent = cfg.dateMode === "sameDay" ? "Day to compare" : "5 years ending";
+        yoyEndDate.value = defaultYoyDate(cfg);
       }
       state.pivotSort = { key: "total", dir: "desc" };
     } else if(cfg.kind === "bank"){
@@ -2657,6 +2695,7 @@
     profit_by_project:"Income less costs per project tag, month by month.",
     income_yoy_calendar:"Gross income for 5 calendar years side by side.",
     income_yoy_customend:"Net income for 5 years to a year end you choose.",
+    income_same_day:"Net sales on the same day of the year, 5 years side by side.",
     expense_yoy_calendar:"Gross spending for 5 calendar years side by side.",
     expense_yoy_customend:"Net spending for 5 years to a year end you choose.",
     bank_reconciliation:"Each bank account's balance at 12 checkpoints.",
@@ -2678,7 +2717,7 @@
     {id:"advanced", title:"Advanced", icon:"M12 2l2.4 5 5.6.8-4 3.9.9 5.5L12 14.6 7.1 17.2l.9-5.5-4-3.9 5.6-.8z", advanced:true,
       blurb:"Extra reports QuickFile doesn't offer, or only offers one account or screen at a time — sales and purchase analysis, customer insights, projects, banking exports, contacts, team and data checks.",
       subgroups:[
-        {title:"Sales analysis", icon:"M4 19h16M7 15l4-4 3 3 5-6", blurb:"Line-level sales and trends by client, item and nominal code.", reports:["sales","sales_by_client","sales_by_item","qty_by_item","sales_by_nominal","income_yoy_calendar","income_yoy_customend"]},
+        {title:"Sales analysis", icon:"M4 19h16M7 15l4-4 3 3 5-6", blurb:"Line-level sales and trends by client, item and nominal code.", reports:["sales","sales_by_client","sales_by_item","qty_by_item","sales_by_nominal","income_yoy_calendar","income_yoy_customend","income_same_day"]},
         {title:"Purchase analysis", icon:"M4 19h16M7 9l4 4 3-3 5 6", blurb:"Line-level spending and trends by supplier and nominal code.", reports:["purchases","purchases_by_supplier","purchases_by_nominal","expense_yoy_calendar","expense_yoy_customend"]},
         {title:"Customer and supplier insights", icon:"M16 11a4 4 0 1 0-8 0M3 21a9 9 0 0 1 18 0M12 7V3", blurb:"Who matters most, who has gone quiet and who pays slowly.", reports:["top_clients","top_suppliers","payment_speed"]},
         {title:"Payment allocations", icon:"M4 6h7M4 12h7M4 18h7M15 6l5 6-5 6M11 6l4 0M11 18h4", blurb:"Which payments and credits were allocated to which invoice, with prepayments and split payments marked.", reports:["sales_allocations","purchase_allocations"]},
@@ -3699,7 +3738,7 @@
     var cfg = REPORTS[state.activeReport];
     populateYoyGroupBy(cfg);
     if(cfg.dateMode === "calendarYear"){ yoyEndYear.value = defaultEndYear(cfg.sourceReport); }
-    else { yoyEndDate.value = defaultEndDateIso(cfg.sourceReport); }
+    else { yoyEndDate.value = defaultYoyDate(cfg); }
     yoySearch.value = ""; render();
   });
   copyYoyBtn.addEventListener("click", copyCurrent);

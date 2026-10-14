@@ -61,3 +61,10 @@ Advanced now has 33 reports in 8 areas. Items marked (new) were added in this bu
 - `guide.html` has been rewritten for v2 in the v1 style (same nav, hero, fonts and the two QuickFile backup screenshots). It covers what the tool is, where the numbers come from, a 6-step how-to (including the loading bar and Export CSV), finding your way around, one section per heading, and each Advanced area in its own panel with how-to-read notes. Every report is listed with its description and its QuickFile location. The descriptions are taken straight from index.html so they match the tool exactly.
 - `faq.html` has 24 questions in 5 groups (Getting started; Your data and privacy; Finding and using reports; Understanding the figures; About QuickFile). The old "no file download" answer is fixed.
 - Both are full HTML documents with relative links only (no claude.ai links).
+
+## v2 build 6 (14 Oct 2026): Sales on this day (59 reports)
+- New Advanced › Sales analysis report **Sales on this day (5 years)** (`#r=income_same_day`). Pick a day (e.g. 14 Oct) and it shows net sales on that date in each of the last 5 years as columns, newest first (14 Oct 26, 25, 24, 23, 22).
+- Same Group by options as Income by year: Project, Nominal, Client, Item. Search, sorting, Reset, Export CSV and Copy CSV work as in the other year-on-year reports.
+- Only rows with sales on at least one of the 5 days are listed.
+- Opens on today's date, or the latest sale date if no sale fell on today's day and month in any of the 5 years. 29 Feb uses 28 Feb in non-leap years.
+- Guide: report entry and Sales analysis intro updated. FAQ: two new questions ("How do I compare sales on the same day each year?", "Why is a day blank or 0.00 in Sales on this day?") and the Advanced answer now mentions same-day comparisons.

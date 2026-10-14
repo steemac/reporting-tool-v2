@@ -159,12 +159,17 @@
 
   <details class="faq-item">
     <summary>What's in the Advanced section?<span class="chev"></span></summary>
-    <div class="a"><p>Reports QuickFile doesn't offer, or only offers one record or account at a time. They're grouped into areas:</p><ul><li>Sales analysis and purchase analysis (line-item detail, monthly summaries, year-on-year)</li><li>Customer and supplier insights (top clients and suppliers, how quickly clients pay)</li><li>Payment allocations (which payment paid which invoice)</li><li>Projects (project summary, sales and profit by project)</li><li>Banking (all-account exports, untagged lines, balance checks)</li><li>Contacts and addresses, Team, and Data checks</li></ul></div>
+    <div class="a"><p>Reports QuickFile doesn't offer, or only offers one record or account at a time. They're grouped into areas:</p><ul><li>Sales analysis and purchase analysis (line-item detail, monthly summaries, year-on-year, and sales on the same day each year)</li><li>Customer and supplier insights (top clients and suppliers, how quickly clients pay)</li><li>Payment allocations (which payment paid which invoice)</li><li>Projects (project summary, sales and profit by project)</li><li>Banking (all-account exports, untagged lines, balance checks)</li><li>Contacts and addresses, Team, and Data checks</li></ul></div>
   </details>
 
   <details class="faq-item">
     <summary>Why is a report greyed out?<span class="chev"></span></summary>
     <div class="a"><p>It needs a file your backup doesn't contain. For example, the team reports need the team members file and the bank reports need the bank statement files. If you think the file should be there, try exporting a fresh backup.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>How do I compare sales on the same day each year?<span class="chev"></span></summary>
+    <div class="a"><p>Open <strong>Advanced → Sales analysis → Sales on this day (5 years)</strong>. Pick a date in <strong>Day to compare</strong> — for example 14 October — and the table shows net sales on that date in each of the last five years, newest first (14 Oct 26, 25, 24, 23 and 22), with a total.</p><p>Use <strong>Group by</strong> to split the figures by project, nominal code, client or item, and Search to narrow the list. Only rows with sales on at least one of the five days are shown. The report opens on today's date; if nothing was sold on today's date in any of the five years, it opens on your most recent sale date instead.</p></div>
   </details>
 
   <details class="faq-item">
@@ -221,6 +226,11 @@
   <details class="faq-item">
     <summary>A report looks wrong — what should I check first?<span class="chev"></span></summary>
     <div class="a"><p>Check you've loaded your own backup rather than the example data (the status next to the search box confirms it), then check the report's dates and filters — a figure that looks missing is often just outside the range selected. If something you entered recently is missing, export a fresh backup a little later.</p></div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why is a day blank or 0.00 in Sales on this day?<span class="chev"></span></summary>
+    <div class="a"><p>The report counts sales invoice lines dated exactly on that day, using the invoice date, net of VAT. A dash means no invoice was dated that day in that year — for example because it fell on a weekend, or the business wasn't trading yet. Lines with a negative amount dated that day (for example a credit note or a discount line) reduce the figure, so a day can also show a negative total.</p><p>If you pick 29 February, years that aren't leap years use 28 February instead, and the column heading shows the date actually used.</p></div>
   </details>
 
   <details class="faq-item">
