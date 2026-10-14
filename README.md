@@ -63,7 +63,7 @@ Advanced now has 33 reports in 8 areas. Items marked (new) were added in this bu
 - Both are full HTML documents with relative links only (no claude.ai links).
 
 ## v2 build 6 (14 Oct 2026): Sales on this day (59 reports)
-- New Advanced › Sales analysis report **Sales on this day (5 years)** (`#r=income_same_day`). Pick a day (e.g. 14 Oct) and it shows net sales on that date in each of the last 5 years as columns, newest first (14 Oct 26, 25, 24, 23, 22).
+- New Advanced › Sales analysis report **Sales on this day (5 years)** (`#r=income_same_day`). Pick a day (e.g. 14 Oct) and it shows net sales on that date in each of the last 5 years as columns, oldest on the left (14 Oct 22, 23, 24, 25, 26). The window rolls with the date picked: 14 Oct 2027 shows 23–27.
 - Same Group by options as Income by year: Project, Nominal, Client, Item. Search, sorting, Reset, Export CSV and Copy CSV work as in the other year-on-year reports.
 - Only rows with sales on at least one of the 5 days are listed.
 - Opens on today's date, or the latest sale date if no sale fell on today's day and month in any of the 5 years. 29 Feb uses 28 Feb in non-leap years.
