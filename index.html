@@ -854,7 +854,7 @@
     income_same_day: {
       kind:"yoy", sourceReport:"sales", valueBasis:"net", valueFormat:"money", dateMode:"sameDay",
       label:"Sales on this day (5 years)",
-      desc:"Net sales on one day of the year (e.g. 14 Oct) for the last 5 years, newest year first, so you can compare the same date year on year.",
+      desc:"Net sales on one day of the year (e.g. 14 Oct) for the 5 years up to the date you pick, oldest on the left, so you can compare the same date year on year.",
       groupChoices: [
         {value:"project", label:"Project", groupField:"tags", prettify:true, noneLabel:"No project tag"},
         {value:"nominal", label:"Nominal", groupField:"nominal_code", labelFor: nominalLabelFor, noneLabel:"(no nominal code)"},
@@ -1110,7 +1110,7 @@
       }
     } else if(cfg.dateMode === "sameDay"){
       var dayIso = yoyEndDate.value || todayIso();
-      for(var i=0;i<5;i++){
+      for(var i=4;i>=0;i--){ // oldest year on the left, the year you pick on the right
         var d = sameDayInYear(dayIso, -i);
         buckets.push({key:d, label: formatDMonYY(d), start:d, end:d});
       }
