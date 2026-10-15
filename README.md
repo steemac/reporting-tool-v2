@@ -68,3 +68,10 @@ Advanced now has 33 reports in 8 areas. Items marked (new) were added in this bu
 - Only rows with sales on at least one of the 5 days are listed.
 - Opens on today's date, or the latest sale date if no sale fell on today's day and month in any of the 5 years. 29 Feb uses 28 Feb in non-leap years.
 - Guide: report entry and Sales analysis intro updated. FAQ: two new questions ("How do I compare sales on the same day each year?", "Why is a day blank or 0.00 in Sales on this day?") and the Advanced answer now mentions same-day comparisons.
+
+## v2 build 7 (15 Oct 2026): Year-to-date comparison (60 reports)
+- Customer request: "a quick YTD comparison — how my sales (or expenses) compare to the same time last year". QuickFile's Segmented P&L only does whole years.
+- New Advanced area **Profit and loss comparisons** with **Year-to-date comparison** (`#r=pl_ytd_compare`): every P&L code (income, cost of sales, expenses, suspense) from the year start to the date picked, side by side with the same period in earlier years, plus Change £ and Change % against last year, with gross and net profit.
+- Controls: Year to date as at (defaults to the latest date in the backup), Year starts (1 Jan, 6 Apr tax year, or the 1st of any month), Compare (2–5 years, oldest on the left), search by code or name.
+- Built from `Nominal_Ledger.csv` (accruals, same basis as the P&L report). Checked on the 24 Sept 2026 backup: 4904 Rent Income 1 Jan–31 Aug 25 £11,946.30 and 9998 Suspense 2026 YTD £51,311.75 match an independent calculation from the raw ledger.
+- Guide (new area section) and FAQ ("How do I compare my sales or costs with the same date last year?") updated. Sales on this day is unchanged.

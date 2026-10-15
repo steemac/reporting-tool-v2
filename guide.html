@@ -110,7 +110,7 @@
     QuickFile Reports
   </div>
   <h1>User Guide</h1>
-  <p>What the tool does, where its numbers come from, how to find your way around, and what every one of its 59 reports shows — in plain English.</p>
+  <p>What the tool does, where its numbers come from, how to find your way around, and what every one of its 60 reports shows — in plain English.</p>
 </div>
 
 
@@ -127,7 +127,7 @@
       <li><a href="#r-sales">Sales and clients</a> <span style="color:var(--text-muted)">(7)</span></li>
       <li><a href="#r-purchases">Purchases and suppliers</a> <span style="color:var(--text-muted)">(8)</span></li>
       <li><a href="#r-products">Products</a> <span style="color:var(--text-muted)">(1)</span></li>
-      <li><a href="#r-advanced">Advanced</a> <span style="color:var(--text-muted)">(36)</span><ul class="sub"><li><a href="#a-sales-analysis">Sales analysis</a></li><li><a href="#a-purchase-analysis">Purchase analysis</a></li><li><a href="#a-customer-and-supplier-insights">Customer and supplier insights</a></li><li><a href="#a-payment-allocations">Payment allocations</a></li><li><a href="#a-projects">Projects</a></li><li><a href="#a-banking">Banking</a></li><li><a href="#a-contacts-and-addresses">Contacts and addresses</a></li><li><a href="#a-team">Team</a></li><li><a href="#a-data-checks">Data checks</a></li></ul></li>
+      <li><a href="#r-advanced">Advanced</a> <span style="color:var(--text-muted)">(37)</span><ul class="sub"><li><a href="#a-sales-analysis">Sales analysis</a></li><li><a href="#a-purchase-analysis">Purchase analysis</a></li><li><a href="#a-profit-and-loss-comparisons">Profit and loss comparisons</a></li><li><a href="#a-customer-and-supplier-insights">Customer and supplier insights</a></li><li><a href="#a-payment-allocations">Payment allocations</a></li><li><a href="#a-projects">Projects</a></li><li><a href="#a-banking">Banking</a></li><li><a href="#a-contacts-and-addresses">Contacts and addresses</a></li><li><a href="#a-team">Team</a></li><li><a href="#a-data-checks">Data checks</a></li></ul></li>
       <li><a href="#export">Exporting your results</a></li>
       <li><a href="#know">Good to know</a></li>
     </ul>
@@ -135,7 +135,7 @@
 
   <section class="g" id="overview">
     <h2>What this tool is</h2>
-    <p>QuickFile Reports is a companion tool for your QuickFile account. You give it a backup zip file exported from QuickFile, and it builds 59 reports from it: the standard statements, ledgers, sales and purchase reports you know from QuickFile, plus an <strong>Advanced</strong> section of reports QuickFile doesn't offer — like payment allocations, profit by property, year-on-year comparisons, bank exports across every account, address lists and data checks.</p>
+    <p>QuickFile Reports is a companion tool for your QuickFile account. You give it a backup zip file exported from QuickFile, and it builds 60 reports from it: the standard statements, ledgers, sales and purchase reports you know from QuickFile, plus an <strong>Advanced</strong> section of reports QuickFile doesn't offer — like payment allocations, profit by property, year-on-year comparisons, bank exports across every account, address lists and data checks.</p>
     <p>It runs entirely in your web browser: there's nothing to install and no account or sign-up. It works alongside your QuickFile account rather than replacing it — QuickFile is still where you raise invoices, record payments and file your VAT return. It isn't an official QuickFile feature.</p>
   </section>
 
@@ -172,7 +172,7 @@
 
   <section class="g" id="finding">
     <h2>Finding your way around</h2>
-    <p>Reports are grouped under six headings. The first five match the areas of QuickFile they come from; the sixth, <strong>Advanced</strong>, holds the extra reports and is split into its own areas (sales analysis, purchase analysis, customer and supplier insights, payment allocations, projects, banking, contacts and addresses, team, and data checks).</p>
+    <p>Reports are grouped under six headings. The first five match the areas of QuickFile they come from; the sixth, <strong>Advanced</strong>, holds the extra reports and is split into its own areas (sales analysis, purchase analysis, profit and loss comparisons, customer and supplier insights, payment allocations, projects, banking, contacts and addresses, team, and data checks).</p>
     <ul>
       <li><strong>Heading buttons</strong> under the search box jump straight to a heading. Inside Advanced, a second row of buttons jumps to each area.</li>
       <li><strong>The report library</strong> down the left-hand side lists every report and highlights the one you have open. (On a phone it's replaced by the report cards.)</li>
@@ -324,6 +324,19 @@
 <div class="rep"><h4>Expenditure by year (custom year-end)</h4>
 <p>Net expenditure totals for the last 5 twelve-month periods, each ending on the date you pick.</p>
 <span class="where only">Advanced — not available in QuickFile</span></div></div>
+<div class="area" id="a-profit-and-loss-comparisons"><h3>Profit and loss comparisons</h3>
+<p class="lead">Year to date against the same date in earlier years, for every income and expense code.</p>
+<p>QuickFile&#x27;s Segmented Profit and Loss can put whole calendar years side by side, but it can&#x27;t stop each year at the same date. This report can, so you can answer &ldquo;how are my sales (or costs) doing compared with this time last year?&rdquo;</p>
+<div class="rep"><h4>Year-to-date comparison</h4>
+<p>Profit and loss for every income, cost of sales and expense code from the start of the year to the date you pick, side by side with the same period in earlier years — for example 1 Jan – 14 Oct 26 against 1 Jan – 14 Oct 25 — with the change against last year in £ and %.</p>
+<ul>
+<li><strong>Year to date as at:</strong> the cut-off date. It starts on the latest date in your backup; change it to any date. Every earlier column stops on the same day and month.</li>
+<li><strong>Year starts:</strong> 1 January (calendar year), 6 April (tax year) or the 1st of any month, to match your financial year. If the date you pick is before the year start, the year began the previous year (for example 6 Apr 26 – 14 Oct 26, but 6 Apr 25 – 14 Mar 26).</li>
+<li><strong>Compare:</strong> this year and last year, or up to 5 years. The oldest year is on the left.</li>
+<li><strong>Change £ and Change %</strong> always compare the year you picked with the year before. &ldquo;new&rdquo; means there was nothing last year to compare with. For costs, a positive change means you spent more.</li>
+<li>Income, gross profit and net profit totals are included, worked out from every nominal ledger posting (accruals basis, the same as the Profit and loss report). Codes with nothing in any of the years are left out. The search box filters codes by number or name; totals then include only the codes shown.</li>
+</ul>
+<span class="where">Closest in QuickFile: Reports → Show all reports → Popular → Segmented Profit And Loss (whole years only, no cut-off date)</span></div></div>
 <div class="area" id="a-customer-and-supplier-insights"><h3>Customer and supplier insights</h3>
 <p class="lead">Who matters most, who has gone quiet and who pays slowly.</p>
 

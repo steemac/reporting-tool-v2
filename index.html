@@ -419,9 +419,9 @@
       QuickFile Backup Reporting Tool &nbsp;•&nbsp; Runs 100% In Your Browser
     </div>
     <h1>Your QuickFile Reports, Built From Your Own Backup</h1>
-    <p class="hero-sub">Choose your backup zip and open any of 59 reports — the standard statements, ledgers, sales and purchase reports you know from QuickFile, plus advanced reports QuickFile doesn't offer — all worked out right here in your browser.</p>
+    <p class="hero-sub">Choose your backup zip and open any of 60 reports — the standard statements, ledgers, sales and purchase reports you know from QuickFile, plus advanced reports QuickFile doesn't offer — all worked out right here in your browser.</p>
     <div class="hero-stats">
-      <span class="stat-pill">59 reports under 6 headings</span>
+      <span class="stat-pill">60 reports under 6 headings</span>
       <span class="stat-pill">Nothing is ever uploaded</span>
       <span class="stat-pill">Works with any backup zip</span>
       <span class="stat-pill">Free to use</span>
@@ -2205,6 +2205,16 @@
   // Clicking a client/supplier name in a list opens their statement.
   function statementLink(reportId, partyKey){ return function(row){ return row[partyKey] ? {report:reportId, values:{party:row[partyKey]}} : null; }; }
 
+  var MONTHS_LONG_YTD = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  // ---- year-to-date comparison helpers ----
+  var YTD_STARTS = [["01-01","1 January (calendar year)"],["04-06","6 April (tax year)"]].concat(
+    ["02","03","04","05","06","07","08","09","10","11","12"].map(function(m){ return [m + "-01", "1 " + MONTHS_LONG_YTD[+m-1]]; }));
+  // The year start (MM-DD) on or before the given end date.
+  function ytdStart(endIso, mmdd){
+    var y = +endIso.slice(0,4), s = y + "-" + mmdd;
+    return s <= endIso ? s : (y-1) + "-" + mmdd;
+  }
+
   var STD_REPORTS = {
     // ------------------------------------------------ Financial statements
     pl: {
@@ -2275,6 +2285,78 @@
           np[kk] = round2((secTotals.Income[kk]||0) - (secTotals["Cost of sales"][kk]||0) - (secTotals.Expenses[kk]||0) - (secTotals["Suspense and mispostings"][kk]||0)); });
         rows.push(np);
         return {columns:cols, rows:rows, stats:[["Columns", String(keys.length)], ["Income £", money(secTotals.Income.total)], ["Net profit £", money(np.total)], ["", ""]]};
+      }
+    },
+    pl_ytd_compare: {
+      kind:"std", group:"advanced", label:"Year-to-date comparison", needs:["nl"],
+      where:"Reports → Show all reports → Popular → Segmented Profit And Loss (whole years only, no cut-off date)",
+      blurb:"Income and costs for every code, year to date against the same date in earlier years.",
+      desc:"Profit and loss for every income, cost of sales and expense code from the start of the year to the date you pick, side by side with the same period in earlier years (e.g. 1 Jan – 14 Oct 26 against 1 Jan – 14 Oct 25), with the change against last year in £ and %.",
+      sortable:false,
+      controls:[
+        {type:"date", key:"asAt", label:"Year to date as at", def:function(p){ return p.latest; }},
+        {type:"select", key:"start", label:"Year starts", options:function(){ return YTD_STARTS; }, def:function(){ return "01-01"; }},
+        {type:"select", key:"years", label:"Compare", options:function(){ return [["2","This year and last year"],["3","3 years"],["4","4 years"],["5","5 years"]]; }, def:function(){ return "2"; }},
+        {type:"search", key:"q", placeholder:"Filter by code or account name…"}
+      ],
+      build:function(p, v){
+        var asAt = v.asAt || p.latest, n = Math.max(2, Math.min(5, parseInt(v.years, 10) || 2));
+        var periods = [];
+        for(var k = n - 1; k >= 0; k--){
+          var end = sameDayInYear(asAt, -k), start = ytdStart(end, v.start || "01-01");
+          periods.push({key:"y" + k, start:start, end:end, label:formatDMonYY(start) + " – " + formatDMonYY(end) + " £"});
+        }
+        var cur = periods[periods.length-1], prev = periods[periods.length-2];
+        var per = {}; periods.forEach(function(pd){ per[pd.key] = new Map(); });
+        var first = periods[0].start;
+        p.nl.forEach(function(x){
+          if(x.date < first || x.date > asAt) return;
+          var c = classify(x.code); if(c.stmt !== "PL") return;
+          var amt = c.section === "Income" ? x.cr - x.dr : x.dr - x.cr;
+          periods.forEach(function(pd){ if(x.date >= pd.start && x.date <= pd.end) per[pd.key].set(x.code, (per[pd.key].get(x.code)||0) + amt); });
+        });
+        var keys = periods.map(function(pd){ return pd.key; });
+        var cols = [C("code","Code"), C("name","Account")].concat(periods.map(function(pd){ return M(pd.key, pd.label); }))
+          .concat([M("chg","Change £"), C("pct","Change %", {num:true})]);
+        function addChange(r){
+          r.chg = round2((r[cur.key]||0) - (r[prev.key]||0));
+          var base = r[prev.key]||0;
+          r.pct = nz(base) ? ((r.chg / Math.abs(base)) * 100 >= 0 ? "+" : "") + ((r.chg / Math.abs(base)) * 100).toFixed(1) + "%" : (nz(r.chg) ? "new" : "");
+          return r;
+        }
+        var q = (v.q || "").trim().toLowerCase();
+        function lineFor(code){
+          var r = {code:code, name:nameOf(p, code)}, any = false;
+          keys.forEach(function(k){ var a = round2(per[k].get(code)||0); r[k] = a; if(nz(a)) any = true; });
+          if(!any) return null;
+          if(q && (code + " " + r.name).toLowerCase().indexOf(q) === -1) return null;
+          return addChange(r);
+        }
+        function totalOf(lines, label, type){
+          var t = {_type:type||"subtotal", name:label};
+          keys.forEach(function(k){ t[k] = round2(sumAmt(lines, k)); }); return addChange(t);
+        }
+        function combine(label, parts){
+          var t = {_type:"total", name:label};
+          keys.forEach(function(k){ t[k] = round2(parts.reduce(function(s, pr){ return s + pr[1] * (pr[0][k]||0); }, 0)); });
+          return addChange(t);
+        }
+        var sections = ["Income","Cost of sales","Expenses","Suspense and mispostings"], tot = {}, rows = [];
+        sections.forEach(function(sec){
+          var lines = codesSorted(p).filter(function(c){ return classify(c).section === sec; }).map(lineFor).filter(Boolean);
+          tot[sec] = totalOf(lines, "Total " + sec.toLowerCase());
+          if(!lines.length && sec === "Suspense and mispostings") return;
+          rows.push({_type:"section", code:sec});
+          rows = rows.concat(lines);
+          rows.push(tot[sec]);
+          if(sec === "Cost of sales") rows.push(combine("Gross profit", [[tot.Income, 1], [tot["Cost of sales"], -1]]));
+        });
+        var np = combine("Net profit", [[tot.Income, 1], [tot["Cost of sales"], -1], [tot.Expenses, -1], [tot["Suspense and mispostings"], -1]]);
+        rows.push(np);
+        var incPct = tot.Income.pct;
+        return {columns:cols, rows:rows,
+          note: q ? "Filtered by “" + v.q + "” — section totals and profit include only the codes shown." : "",
+          stats:[["Income to date £", money(tot.Income[cur.key])], ["Same date last year £", money(tot.Income[prev.key])], ["Income change", incPct || "–"], ["Net profit to date £", money(np[cur.key])]]};
       }
     },
     balance_sheet: {
@@ -2719,6 +2801,7 @@
       subgroups:[
         {title:"Sales analysis", icon:"M4 19h16M7 15l4-4 3 3 5-6", blurb:"Line-level sales and trends by client, item and nominal code.", reports:["sales","sales_by_client","sales_by_item","qty_by_item","sales_by_nominal","income_yoy_calendar","income_yoy_customend","income_same_day"]},
         {title:"Purchase analysis", icon:"M4 19h16M7 9l4 4 3-3 5 6", blurb:"Line-level spending and trends by supplier and nominal code.", reports:["purchases","purchases_by_supplier","purchases_by_nominal","expense_yoy_calendar","expense_yoy_customend"]},
+        {title:"Profit and loss comparisons", icon:"M4 19h16M7 16V10M11 16V6M15 16v-4M19 16V8", blurb:"Year to date against the same date in earlier years, for every income and expense code.", reports:["pl_ytd_compare"]},
         {title:"Customer and supplier insights", icon:"M16 11a4 4 0 1 0-8 0M3 21a9 9 0 0 1 18 0M12 7V3", blurb:"Who matters most, who has gone quiet and who pays slowly.", reports:["top_clients","top_suppliers","payment_speed"]},
         {title:"Payment allocations", icon:"M4 6h7M4 12h7M4 18h7M15 6l5 6-5 6M11 6l4 0M11 18h4", blurb:"Which payments and credits were allocated to which invoice, with prepayments and split payments marked.", reports:["sales_allocations","purchase_allocations"]},
         {title:"Projects", icon:"M3 7h6l2 2h10v10H3zM3 7v12", blurb:"Income, costs and profit for each project or property tag.", reports:["project_summary","sales_by_project","profit_by_project"]},
